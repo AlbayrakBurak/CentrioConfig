@@ -27,7 +27,6 @@ namespace Configuration.Infrastructure.Mongo
             _logger = logger;
             _inner = new MongoConfigurationRepository(connectionString, databaseName, collectionName);
 
-            // Polly resilience pipeline: retry with jitter, timeout, circuit breaker
             var retryOptions = new RetryStrategyOptions
             {
                 ShouldHandle = new PredicateBuilder()
@@ -105,7 +104,6 @@ namespace Configuration.Infrastructure.Mongo
                     }
                     catch (MongoWriteException ex) when (ex.WriteError?.Category == ServerErrorCategory.DuplicateKey)
                     {
-                        // Duplicate key errors should not be retried - rethrow immediately
                         throw;
                     }
                     catch (Exception ex)
@@ -117,7 +115,6 @@ namespace Configuration.Infrastructure.Mongo
             }
             catch (MongoWriteException ex) when (ex.WriteError?.Category == ServerErrorCategory.DuplicateKey)
             {
-                // Re-throw duplicate key exceptions without retry wrapper
                 throw;
             }
         }

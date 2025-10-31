@@ -70,7 +70,6 @@ namespace Configuration.Infrastructure.Mongo
 
         public async Task<ConfigurationEntry?> UpdateAsync(string id, string applicationName, ConfigurationEntry entry, CancellationToken cancellationToken = default)
         {
-            // Güvenlik: Sadece belirtilen applicationName'e ait kayıt güncellenebilir
             var filter = Builders<ConfigurationDocument>.Filter.And(
                 Builders<ConfigurationDocument>.Filter.Eq(x => x.Id, ObjectId.Parse(id)),
                 Builders<ConfigurationDocument>.Filter.Eq(x => x.ApplicationName, applicationName)
@@ -87,7 +86,6 @@ namespace Configuration.Infrastructure.Mongo
 
         public async Task<bool> SetActiveAsync(string id, string applicationName, bool isActive, CancellationToken cancellationToken = default)
         {
-            // Güvenlik: Sadece belirtilen applicationName'e ait kayıt değiştirilebilir
             var filter = Builders<ConfigurationDocument>.Filter.And(
                 Builders<ConfigurationDocument>.Filter.Eq(x => x.Id, ObjectId.Parse(id)),
                 Builders<ConfigurationDocument>.Filter.Eq(x => x.ApplicationName, applicationName)

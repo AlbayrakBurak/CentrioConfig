@@ -12,7 +12,6 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Admin API", Version = "v1" });
 });
 
-// CORS for Admin Web UI
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -24,7 +23,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Basic DI for repository using connection string from configuration
 builder.Services.AddSingleton<IConfigurationRepository>(sp =>
 {
     var cs = builder.Configuration.GetConnectionString("Mongo") ?? "mongodb://localhost:27017";
@@ -34,7 +32,6 @@ builder.Services.AddSingleton<IConfigurationRepository>(sp =>
 
 var app = builder.Build();
 
-// Enable CORS
 app.UseCors();
 
 if (app.Environment.IsDevelopment())
@@ -43,7 +40,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Endpoints scoped by applicationName
 app.MapGet("/{applicationName}/configs", async (string applicationName, IConfigurationRepository repo, string? name = null, bool includeInactive = false, CancellationToken ct = default) =>
 {
     var items = includeInactive 

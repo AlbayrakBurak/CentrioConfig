@@ -17,8 +17,6 @@ public class ConfigurationReaderTests : IAsyncDisposable
         // Arrange & Act
         var exception = Record.Exception(() =>
         {
-            // Note: ConfigurationReader constructor creates its own repository
-            // This test just validates constructor signature
             var _ = new ConfigurationReader("TEST-APP", "mongodb://localhost:27017", 1000);
         });
 

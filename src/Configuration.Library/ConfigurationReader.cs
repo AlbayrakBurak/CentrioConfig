@@ -77,7 +77,6 @@ namespace Configuration.Library
             }
             catch (OperationCanceledException)
             {
-                // graceful shutdown
             }
         }
 
@@ -102,7 +101,6 @@ namespace Configuration.Library
                 if (changes.Count == 0) return;
 
                 var updatedList = new List<ConfigurationEntry>(_cache.Count + changes.Count);
-                // Rebuild from existing cache, then apply changes
                 foreach (var kvp in _cache)
                 {
                     updatedList.Add(new ConfigurationEntry
@@ -118,7 +116,6 @@ namespace Configuration.Library
                 }
                 foreach (var change in changes)
                 {
-                    // Upsert or remove (if deactivated it wouldn't be returned here; we rely on full refresh if needed)
                     var idx = updatedList.FindIndex(e => e.Name == change.Name);
                     if (idx >= 0) updatedList[idx] = change; else updatedList.Add(change);
                 }
