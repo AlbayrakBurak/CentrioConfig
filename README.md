@@ -205,5 +205,4 @@ while (await timer.WaitForNextTickAsync(cancellationToken))
 
 ## Lisans
 
-Bu proje bir iş başvurusu case çalışmasıdır.
 
